@@ -15,13 +15,19 @@ public class CaterpillarController : MonoBehaviour
 
     private void Update()
     {
+        if (plant.transform.position.x < transform.position.x)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        } else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
         transform.position = Vector3.MoveTowards(transform.position, plant.transform.position, speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         // TODO prevent multiple simultaneous collisions
-        Debug.Log(collision.gameObject.CompareTag("Plant"));
         if (collision.gameObject.CompareTag("Plant"))
         {
             PlantController plantController = collision.gameObject.GetComponent<PlantController>();

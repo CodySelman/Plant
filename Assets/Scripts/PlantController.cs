@@ -18,7 +18,6 @@ public class PlantController : MonoBehaviour
 
     public void GetHit(float damage, Vector3 attackerPos)
     {
-        Debug.Log("GetHit");
         UpdateHealth(health -= damage);
         Vector3 attackerDir = attackerPos - transform.position;
         Vector3 recoilDir = -attackerDir.normalized;
@@ -27,14 +26,11 @@ public class PlantController : MonoBehaviour
 
     private void UpdateHealth(float newHealth)
     {
-        Debug.Log("UpdateHealth");
         health = Mathf.Clamp(newHealth, 0, 100f);
-        Debug.Log("Health: " + health);
     }
 
     private void FixedUpdate()
     {
-        Debug.Log(rb.velocity.magnitude);
         if (rb.velocity.magnitude < 0.2)
         {
             rb.velocity = Vector3.zero;
