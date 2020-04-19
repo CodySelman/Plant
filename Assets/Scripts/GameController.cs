@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public bool isGameOver = true;
+    public bool isHoldingObject = false;
 
     private void Start()
     {

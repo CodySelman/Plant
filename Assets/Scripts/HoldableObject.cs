@@ -5,11 +5,17 @@ using UnityEngine.Events;
 
 public class HoldableObject : MonoBehaviour
 {
+    private GameController gameController;
     private Vector3 mouseOffset;
     private float mouseZ = 0;
     private bool isHeld = false;
 
     public UnityEvent primaryAction;
+
+    private void Start()
+    {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+    }
 
     private void Update()
     {
@@ -23,18 +29,23 @@ public class HoldableObject : MonoBehaviour
             } else if (Input.GetMouseButtonDown(1))
             {
                 isHeld = false;
+                gameController.isHoldingObject = false;
             }
         }
     }
 
     void OnMouseDown()
     {
-        mouseZ = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+        if (!gameController.isHoldingObject)
+        {
+            mouseZ = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
 
-        // Store offset = gameobject world pos - mouse world pos
-        mouseOffset = gameObject.transform.position - GetMouseAsWorldPoint();
+            // Store offset = gameobject world pos - mouse world pos
+            mouseOffset = gameObject.transform.position - GetMouseAsWorldPoint();
 
-        isHeld = true;
+            isHeld = true;
+            gameController.isHoldingObject = true;
+        }
     }
 
     private Vector3 GetMouseAsWorldPoint()
