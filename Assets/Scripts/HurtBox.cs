@@ -9,6 +9,7 @@ public class HurtBox : MonoBehaviour
     private GameObject parentGO;
     private FlySwatter flySwatterScript;
     private WateringCan wateringCanScript;
+    private Fertilizer fertilizerScript;
 
     private void Start()
     {
@@ -21,6 +22,9 @@ public class HurtBox : MonoBehaviour
                 break;
             case "Watering Can":
                 wateringCanScript = parentGO.GetComponent<WateringCan>();
+                break;
+            case "Fertilizer":
+                fertilizerScript = parentGO.GetComponent<Fertilizer>();
                 break;
             default:
                 Debug.Log("HurtBox can't find parent Game Object");
@@ -37,6 +41,9 @@ public class HurtBox : MonoBehaviour
                 break;
             case "Watering Can":
                 wateringCanScript.HurtboxTrigger(other.transform.gameObject);
+                break;
+            case "Fertilizer":
+                fertilizerScript.HurtboxTrigger(other.transform.gameObject);
                 break;
             default:
                 Debug.Log("HurtBox can't find parent Game Object");

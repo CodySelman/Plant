@@ -15,9 +15,12 @@ public class PlantController : MonoBehaviour
     private float wetnessDamage = 1;
 
     public float hunger = 100f;
+    private float hungerLoss = 1;
+    private int hungerThreshold = 25;
+    private float hungerDamage = 2;
+
     public float sunlight = 100f;
 
-    private float hungerLoss = 1;
     private float sunlightLoss = 1;
 
 
@@ -43,6 +46,12 @@ public class PlantController : MonoBehaviour
             {
                 UpdateHealth(health -= wetnessDamage * Time.deltaTime);
             }
+
+            UpdateHunger(hunger -= hungerLoss * Time.deltaTime);
+            if (hunger <= hungerThreshold)
+            {
+                UpdateHealth(health -= hungerDamage * Time.deltaTime);
+            }
         }
     }
 
@@ -67,5 +76,15 @@ public class PlantController : MonoBehaviour
     private void UpdateWetness(float newWetness)
     {
         wetness = Mathf.Clamp(newWetness, 0, 100f);
+    }
+
+    public void GetFertilized()
+    {
+        UpdateHunger(hunger += 25f);
+    }
+
+    private void UpdateHunger(float newHunger)
+    {
+        hunger = Mathf.Clamp(newHunger, 0, 100f);
     }
 }

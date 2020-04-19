@@ -5,13 +5,15 @@ using UnityEngine;
 public class WateringCan : MonoBehaviour
 {
     private GameObject spriteGO;
+    private BoxCollider hurtBox;
+    private PlantController plantController;
     private bool isWatering = false;
-
-    [SerializeField] private BoxCollider hurtBox;
 
     private void Start()
     {
         spriteGO = transform.GetChild(0).gameObject;
+        hurtBox = transform.GetChild(1).gameObject.GetComponent<BoxCollider>();
+        plantController = GameObject.FindGameObjectWithTag("Plant").GetComponent<PlantController>();
         hurtBox.enabled = false;
     }
 
@@ -38,7 +40,7 @@ public class WateringCan : MonoBehaviour
     {
         if (other.CompareTag("Plant"))
         {
-            Debug.Log("Water Plant");
+            plantController.GetWatered();
         }
     }
 }

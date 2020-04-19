@@ -2,43 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlySwatter : MonoBehaviour
+public class Fertilizer : MonoBehaviour
 {
     private GameObject spriteGO;
+    private PlantController plantController;
+    private bool isFertilizing = false;
     private BoxCollider hurtBox;
-    private bool isSwatting = false;
 
     private void Start()
     {
         spriteGO = transform.GetChild(0).gameObject;
         hurtBox = transform.GetChild(1).gameObject.GetComponent<BoxCollider>();
+        plantController = GameObject.FindGameObjectWithTag("Plant").GetComponent<PlantController>();
         hurtBox.enabled = false;
     }
 
     public void PrimaryAction()
     {
-        if (!isSwatting)
+        if (!isFertilizing)
         {
-            StartCoroutine(Swat());
+            StartCoroutine(Fertilize());
         }
     }
 
-    IEnumerator Swat()
+    IEnumerator Fertilize()
     {
-        isSwatting = true;
+        isFertilizing = true;
         hurtBox.enabled = true;
-        spriteGO.transform.rotation = Quaternion.Euler(45, 0, 0);
-        yield return new WaitForSeconds(0.15f);
+        spriteGO.transform.rotation = Quaternion.Euler(0, 0, 90);
+        yield return new WaitForSeconds(0.3f);
         spriteGO.transform.rotation = Quaternion.Euler(0, 0, 0);
-        isSwatting = false;
+        isFertilizing = false;
         hurtBox.enabled = false;
     }
 
     public void HurtboxTrigger(GameObject other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Plant"))
         {
-            GameObject.Destroy(other);
+            plantController.GetFertilized();
         }
     }
 }
