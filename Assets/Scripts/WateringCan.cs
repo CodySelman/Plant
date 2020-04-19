@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlySwatter : MonoBehaviour
+public class WateringCan : MonoBehaviour
 {
     private GameObject spriteGO;
-    private bool isSwatting = false;
+    private bool isWatering = false;
 
     [SerializeField] private BoxCollider hurtBox;
 
@@ -17,28 +17,28 @@ public class FlySwatter : MonoBehaviour
 
     public void PrimaryAction()
     {
-        if (!isSwatting)
+        if (!isWatering)
         {
-            StartCoroutine(Swat());
+            StartCoroutine(Water());
         }
     }
 
-    IEnumerator Swat()
+    IEnumerator Water()
     {
-        isSwatting = true;
+        isWatering = true;
         hurtBox.enabled = true;
-        spriteGO.transform.rotation = Quaternion.Euler(45, 0, 0);
-        yield return new WaitForSeconds(0.15f);
+        spriteGO.transform.rotation = Quaternion.Euler(0, 0, 45);
+        yield return new WaitForSeconds(0.3f);
         spriteGO.transform.rotation = Quaternion.Euler(0, 0, 0);
-        isSwatting = false;
+        isWatering = false;
         hurtBox.enabled = false;
     }
 
     public void HurtboxTrigger(GameObject other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Plant"))
         {
-            GameObject.Destroy(other);
+            Debug.Log("Water Plant");
         }
     }
 }
