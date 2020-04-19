@@ -6,15 +6,29 @@ public class DragObject : MonoBehaviour
 {
     // Credit: Jayanam Games
 
+    private GameController gameController;
+
     private Vector3 mouseOffset;
     private float mouseZ;
+    private bool isHeld = false;
+
+    private void Start()
+    {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+    }
 
     void OnMouseDown()
     {
-        mouseZ = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+        if (!gameController.isHoldingObject)
+        {
+            isHeld = true;
+            gameController.isHoldingObject = true;
 
-        // Store offset = gameobject world pos - mouse world pos
-        mouseOffset = gameObject.transform.position - GetMouseAsWorldPoint();
+            mouseZ = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+
+            // Store offset = gameobject world pos - mouse world pos
+            mouseOffset = gameObject.transform.position - GetMouseAsWorldPoint();
+        }
     }
 
     private Vector3 GetMouseAsWorldPoint()
@@ -31,6 +45,15 @@ public class DragObject : MonoBehaviour
 
     void OnMouseDrag()
     {
-        transform.position = GetMouseAsWorldPoint() + mouseOffset;
+        if (isHeld)
+        {
+            transform.position = GetMouseAsWorldPoint() + mouseOffset;
+        }
+    }
+
+    private void OnMouseUp()
+    {
+        isHeld = false;
+        gameController.isHoldingObject = false;
     }
 }
