@@ -16,13 +16,13 @@ public class CaterpillarSpawner : MonoBehaviour
         screenWidth = screenDimensions.x;
         screenHeight = screenDimensions.y;
 
-        StartCoroutine("Spawn");
+        StartCoroutine(Spawn());
     }
 
-    private IEnumerator Spawn()
+    IEnumerator Spawn()
     {
-        yield return new WaitForSeconds(1.0f);
-        if (!gameController.isGameOver)
+        yield return new WaitForSeconds(2.0f);
+        while (!gameController.isGameOver)
         {
             int randomInt = Mathf.FloorToInt(Random.Range(0, 4));
             if (randomInt >= 3)
@@ -41,6 +41,7 @@ public class CaterpillarSpawner : MonoBehaviour
             {
                 SpawnBottom();
             }
+            yield return new WaitForSeconds(3.0f);
         }
         yield return null;
     }
@@ -89,6 +90,7 @@ public class CaterpillarSpawner : MonoBehaviour
 
     private void SpawnCaterpillar(Vector3 pos)
     {
+        Debug.Log("Spawn Caterpillar");
         GameObject.Instantiate(caterpillar, pos, Quaternion.identity);
     }
 }
