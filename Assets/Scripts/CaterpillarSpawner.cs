@@ -16,25 +16,33 @@ public class CaterpillarSpawner : MonoBehaviour
         screenWidth = screenDimensions.x;
         screenHeight = screenDimensions.y;
 
-        Spawn();
+        StartCoroutine("Spawn");
     }
 
-    private void Spawn()
+    private IEnumerator Spawn()
     {
-        int randomInt = Mathf.FloorToInt(Random.Range(0, 4));
-        if (randomInt >= 3)
+        yield return new WaitForSeconds(1.0f);
+        if (!gameController.isGameOver)
         {
-            SpawnLeft();
-        } else if (randomInt >= 2)
-        {
-            SpawnRight();
-        } else if (randomInt >= 1)
-        {
-            SpawnTop();
-        } else
-        {
-            SpawnBottom();
+            int randomInt = Mathf.FloorToInt(Random.Range(0, 4));
+            if (randomInt >= 3)
+            {
+                SpawnLeft();
+            }
+            else if (randomInt >= 2)
+            {
+                SpawnRight();
+            }
+            else if (randomInt >= 1)
+            {
+                SpawnTop();
+            }
+            else
+            {
+                SpawnBottom();
+            }
         }
+        yield return null;
     }
 
     private float GetRandomWidth()
