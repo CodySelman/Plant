@@ -10,14 +10,14 @@ public class PlantController : MonoBehaviour
     public float health = 100f;
 
     public float wetness = 100f;
-    private float wetnessLoss = 2;
-    private int wetnessThreshold = 25;
-    private float wetnessDamage = 1;
+    private float wetnessLoss = 4;
+    public int wetnessThreshold = 25;
+    private float wetnessDamage = 4;
 
     public float hunger = 100f;
-    private float hungerLoss = 1;
-    private int hungerThreshold = 25;
-    private float hungerDamage = 2;
+    private float hungerLoss = 2;
+    public int hungerThreshold = 25;
+    private float hungerDamage = 8;
 
     public float sunlight = 100f;
 
@@ -65,6 +65,10 @@ public class PlantController : MonoBehaviour
 
     private void UpdateHealth(float newHealth)
     {
+        if (newHealth <= 0)
+        {
+            gameController.isGameOver = true;
+        }
         health = Mathf.Clamp(newHealth, 0, 100f);
     }
 

@@ -5,24 +5,29 @@ using UnityEngine;
 public class CaterpillarController : MonoBehaviour
 {
     private GameObject plant;
+    private GameController gameController;
     [SerializeField] private float speed;
     [SerializeField] private float strength;
 
     private void Start()
     {
         plant = GameObject.FindGameObjectWithTag("Plant");
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     private void Update()
     {
-        if (plant.transform.position.x < transform.position.x)
+        if (!gameController.isGameOver)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-        } else
-        {
-            transform.localScale = new Vector3(1, 1, 1);
+            if (plant.transform.position.x < transform.position.x)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            } else
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            transform.position = Vector3.MoveTowards(transform.position, plant.transform.position, speed * Time.deltaTime);
         }
-        transform.position = Vector3.MoveTowards(transform.position, plant.transform.position, speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -41,9 +41,22 @@ public class CaterpillarSpawner : MonoBehaviour
             {
                 SpawnBottom();
             }
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSeconds(GetSpawnWait());
         }
         yield return null;
+    }
+
+    private float GetSpawnWait()
+    {
+        float score = gameController.score;
+        if (score >= 1)
+        {
+            float waitTime = 3.0f - score / 30;
+            return Mathf.Clamp(waitTime, 1.5f, 3.0f);
+        } else
+        {
+            return 3.0f;
+        }
     }
 
     private float GetRandomWidth()
